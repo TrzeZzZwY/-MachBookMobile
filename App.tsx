@@ -1,7 +1,6 @@
-import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
-import ListPage from "./src/pages/ListPage";
+import { Text } from "react-native";
 import { useFonts } from "expo-font";
+import MatchBook from "./src/MatchBook";
 
 export default function App() {
 
@@ -19,8 +18,6 @@ export default function App() {
   }
 
   return (
-    <View>
-      <ListPage />
-    </View>
+    <MatchBook/>
   );
 }
