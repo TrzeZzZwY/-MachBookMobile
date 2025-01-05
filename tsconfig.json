@@ -3,14 +3,18 @@
   "compilerOptions": {
     "strict": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "allowUmdGlobalAccess": true,
     "paths": {
       "svg/*": ["./assets/svg/*"],
       "assets/*": ["./assets/*"],
-      "appConfig": ["./config.json"]
+      "appConfig": ["./config.json"],
+      "declarations": ["./app-declarations.d.ts"]
     }
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx",  
+    "**/*.tsx",
+    "./app-declarations.d.ts"  
   ],
 }

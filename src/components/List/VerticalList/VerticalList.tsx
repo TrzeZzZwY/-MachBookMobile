@@ -1,15 +1,14 @@
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import ListHeader from "../ListHeader";
 import ListWrapper from "../ListWrapper";
-import { Asset} from "expo-asset";
 import VerticalListRow from "./VerticalListRow";
 import VerticalListContent from "./VerticalListContent";
-import { UserBookItem } from "../../../types/UserBookItem";
+import { UserBookItemType } from "../../../types/UserBookItemType";
 
 export type VerticalListProps = {
   header: string,
   children: React.ReactElement | React.ReactElement[],
-  data: UserBookItem[]
+  data: UserBookItemType[]
 }
 
 export default function VerticalList({data,children,header}: VerticalListProps) {

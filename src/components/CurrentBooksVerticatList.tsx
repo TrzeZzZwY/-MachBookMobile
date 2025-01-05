@@ -6,12 +6,12 @@ import Svg, { NumberProp, Path } from "react-native-svg";
 import { ColorValue } from "react-native";
 import axiosInstance from "../axios/axiosInstance";
 import { Pagination } from "../types/Pagination";
-import { UserBookItem } from "../types/UserBookItem";
+import { UserBookItemType } from "../types/UserBookItemType";
 import BookService from "../services/BookService";
 import UserBookItemService from "../services/UserBookItemService";
 
 export default function CurrentBooksVerticalList() {
-  const [data, setData] = useState<UserBookItem[]>([]);
+  const [data, setData] = useState<UserBookItemType[]>([]);
 
   const deleteAction = () => {};
 
