@@ -9,7 +9,7 @@ export default function ListPage() {
       <View>
         <BooksMatchedByOthersUsersList />
         <View className="mx-5">
-          <MatchedBooksVerticalList />
+          {/* <MatchedBooksVerticalList /> */}
           <CurrentBooksVerticalList />
         </View>
       </View>

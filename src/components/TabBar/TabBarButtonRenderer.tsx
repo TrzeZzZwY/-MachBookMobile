@@ -1,7 +1,7 @@
-import List from "../../../assets/svg/list.svg";
-import Hearth from "../../../assets/svg/hearth.svg";
-import User from "../../../assets/svg/user.svg";
-import Map from "../../../assets/svg/map.svg";
+import List from "svg/list.svg";
+import Hearth from "svg/hearth.svg";
+import User from "svg/user.svg";
+import Map from "svg/map.svg";
 
 import TabBarButton from "./TabBarButton";
 

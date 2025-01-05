@@ -1,5 +1,5 @@
 import { ColorValue, Pressable, View } from "react-native";
-import { TrashIcon } from "../ListDeleteButton";
+import { TrashIcon } from "../List/ListDeleteButton";
 import Svg, { NumberProp, Path } from "react-native-svg";
 
 export type ListDeleteButtonProps = {

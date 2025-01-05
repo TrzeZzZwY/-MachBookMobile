@@ -1,6 +1,6 @@
 import { Asset } from "expo-asset";
 import { View, Text } from "react-native";
-import ListImage from "../ListImage";
+import ListImage from "../List/ListImage";
 import HorizontalListItemBadge from "./HorizontalListItemBadge";
 
 export type HorizontalListItemEntry = {

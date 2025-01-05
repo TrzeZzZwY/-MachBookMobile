@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import CommonHeader from "../Common/CommonHeader";
 
 export type ListHeaderProps = {
   text: string,
@@ -7,7 +8,7 @@ export type ListHeaderProps = {
 export default function ListHeader({ text }: ListHeaderProps) {
   return (
     <View className="mt-8">
-      <Text className="font-merriweather text-xl">{text}</Text>
+      <CommonHeader text={text}/>
     </View>
   );
 }

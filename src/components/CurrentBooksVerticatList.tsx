@@ -1,69 +1,29 @@
 import { useEffect, useState } from "react";
-import VerticalList, { BookListRowEntry } from "./VerticalList/VerticalList";
-import { useAssets } from "expo-asset";
-import ListActionButton from "./ListActionButton";
-import ListDeleteButton from "./ListDeleteButton";
+import VerticalList from "./List/VerticalList/VerticalList";
+import ListActionButton from "./List/ListActionButton";
+import ListDeleteButton from "./List/ListDeleteButton";
 import Svg, { NumberProp, Path } from "react-native-svg";
 import { ColorValue } from "react-native";
+import axiosInstance from "../axios/axiosInstance";
+import { Pagination } from "../types/Pagination";
+import { UserBookItem } from "../types/UserBookItem";
+import BookService from "../services/BookService";
+import UserBookItemService from "../services/UserBookItemService";
 
 export default function CurrentBooksVerticalList() {
-  const [data, setData] = useState<BookListRowEntry[]>([]);
-  const [assets, error] = useAssets(
-    require("../../assets/images/template.png")
-  );
+  const [data, setData] = useState<UserBookItem[]>([]);
 
   const deleteAction = () => {};
 
   const editAction = () => {};
 
   useEffect(() => {
-    if (assets !== undefined) {
-      setData([
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 1,
-        },
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 2,
-        },
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 3,
-        },
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 4,
-        },
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 5,
-        },
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 6,
-        },
-        {
-          image: assets[0],
-          title: "Monachomachia, bajki i przypowieści",
-          author: "Ignacy Krasicki",
-          bookId: 7,
-        },
-      ]);
-    }
-  }, [assets]);
+    (async () => {
+      const data = await UserBookItemService.GetUserBooks(1,50);
+      if(data)
+        setData(data.items);   
+    })()
+    }, []);
 
   return (
     <VerticalList data={data} header="Twoje aktualne książki">

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import VerticalList, { BookListRowEntry } from "./VerticalList/VerticalList";
+import VerticalList, { BookListRowEntry } from "./List/VerticalList/VerticalList";
 import { useAssets } from "expo-asset";
-import ListActionButton from "./ListActionButton";
-import ListDeleteButton from "./ListDeleteButton";
+import ListActionButton from "./List/ListActionButton";
+import ListDeleteButton from "./List/ListDeleteButton";
 import Svg, { NumberProp, Path } from "react-native-svg";
 import { ColorValue, FlatList, Text } from "react-native";
 
