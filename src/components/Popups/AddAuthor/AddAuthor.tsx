@@ -1,21 +1,18 @@
 import { TouchableOpacity, View, Text, useAnimatedValue, Animated, Easing } from "react-native";
-import CommonHeader from "../Common/CommonHeader";
-import CommonInput from "../Common/CommonInput";
+import CommonInput from "../../Common/CommonInput";
 import { useEffect, useState } from "react";
 import Loader from 'svg/loader.svg';
-import { AuthorType } from "../../types/AuthorType";
-import AuthorService from "../../services/AuthorService";
+import { AuthorType } from "../../../types/AuthorType";
+import AuthorService from "../../../services/AuthorService";
 
-export type AddAuthorPopupProps = {
-    isOpen: boolean;
-    onAdd: (author: AuthorType) => void;
-    close: () => void;
+export type AddAuthorProps = {
+    onCreate: (author: AuthorType) => void;
 }
 
-export default function AddAuthorPopup({ isOpen, close }: AddAuthorPopupProps) {
+export default function AddAuthor({ onCreate }: AddAuthorProps) {
 
     const [firstName, setFirstName] = useState<string>("");
-    const [surName, setSurName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [birthYear, setBirthYear] = useState<number | null>(0);
     const [loading, setLoading] = useState<boolean>(false);
@@ -40,8 +37,8 @@ export default function AddAuthorPopup({ isOpen, close }: AddAuthorPopupProps) {
         setFirstName(value);
     }
 
-    const handleSurnameChange = (value: string) => {
-        setSurName(value)
+    const handleLastNameChange = (value: string) => {
+        setLastName(value)
     }
 
     const handleContryChange = (value: string) => {
@@ -59,7 +56,7 @@ export default function AddAuthorPopup({ isOpen, close }: AddAuthorPopupProps) {
 
         const newAuthor: AuthorType = {
             firstName: firstName,
-            lastName: surName,
+            lastName: lastName,
             country: country,
             yearOfBirth: birthYear,
             id: 0,
@@ -70,19 +67,16 @@ export default function AddAuthorPopup({ isOpen, close }: AddAuthorPopupProps) {
 
         await AuthorService
             .createNewAuthor(newAuthor)
-            .then(close)
-            .finally(() => setLoading(false))
+            .finally(() => {
+                setLoading(false)
+                onCreate(newAuthor)
+            })
     }
 
-    if (isOpen === false)
-        return null;
-
-    return <View className="absolute w-full h-full flex justify-center items-center z-20">
-        <TouchableOpacity activeOpacity={0.5} className="absolute w-full h-full bg-neutral-500 opacity-50" onPress={close} />
-        <View className="w-[300] bg-white rounded-lg p-4">
-            <CommonHeader text="Dodaj nowego autora" />
+    return (
+        <View>
             <CommonInput label={"Imię autora"} onChange={handleFirstNameChange} />
-            <CommonInput label={"Nazwisko autora"} onChange={handleSurnameChange} />
+            <CommonInput label={"Nazwisko autora"} onChange={handleLastNameChange} />
             <View className="flex flex-row justify-between">
                 <View className="w-[45%] mx-[1%]">
                     <CommonInput label={"Kraj pochodzenia"} onChange={handleContryChange} />
@@ -107,5 +101,5 @@ export default function AddAuthorPopup({ isOpen, close }: AddAuthorPopupProps) {
                 </TouchableOpacity>
             </View>
         </View>
-    </View>
+    )
 }

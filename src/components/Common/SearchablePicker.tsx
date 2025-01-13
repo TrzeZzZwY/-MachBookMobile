@@ -1,7 +1,6 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Plus from "svg/plus.svg";
-import CommonHeader from "./CommonHeader";
 import { useEffect, useState } from "react";
 import { SearchableType } from "../../types/SearchableType";
 import SearchableService from "../../services/SearchableService";
