@@ -1,31 +1,35 @@
 import { FlatList } from "react-native";
-import ListHeader from "../ListHeader";
-import ListWrapper from "../ListWrapper";
-import VerticalListRow from "./VerticalListRow";
-import VerticalListContent from "./VerticalListContent";
-import { UserBookItemType } from "../../../types/UserBookItemType";
+import { useState } from "react";
+import { IdType } from "../../../types/IdType";
 
-export type VerticalListProps = {
-  header: string,
-  children: React.ReactElement | React.ReactElement[],
-  data: UserBookItemType[]
+export type VerticalListProps<T extends IdType> = {
+  renderRow: (item: T) => React.ReactElement | React.ReactElement[],
+  data: T[] | null,
+  onRefresh: () => Promise<void>
 }
 
-export default function VerticalList({data,children,header}: VerticalListProps) {
+export default function VerticalList<T extends IdType>({ data, renderRow, onRefresh }: VerticalListProps<T>) {
+
+  const [refresh, setRefreshing] = useState(false);
+
+  const onRefreshInternal = () => {
+    setRefreshing(true);
+    onRefresh().finally(() => setRefreshing(false))
+  }
 
   return (
-    <ListWrapper>
-      <ListHeader text={header} />
-      <VerticalListContent>
-        <FlatList
-          data={data}
-          renderItem={(item) => (
-            <VerticalListRow data={item.item}>
-              {children}
-            </VerticalListRow>
-          )}
-        />
-      </VerticalListContent>
-    </ListWrapper>
+    <>
+      <FlatList
+        refreshing={refresh}
+        onRefresh={onRefreshInternal}
+        keyExtractor={(item) => item.id.toString()}
+        data={data}
+        renderItem={(item) => (
+          <>
+            {renderRow(item.item)}
+          </>
+        )}
+      />
+    </>
   );
 }

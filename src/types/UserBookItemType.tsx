@@ -1,7 +1,8 @@
 import  BookType from "./BookType";
+import { SearchableType } from "./SearchableType";
 import { UserBookItemStatus } from "./UserBookItemStatus";
 
-export interface UserBookItemType {
+export interface UserBookItemType extends SearchableType {
     id: number,
     userId: number,
     status: UserBookItemStatus,

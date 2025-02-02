@@ -11,7 +11,7 @@ export type ChoosePhotoProps = {
 
 export default function ChoosePhoto({ onSuccessfullUpload }: ChoosePhotoProps) {
 
-    const [asset,setAsset] = useState<ImagePickerAsset | null>(null);
+    const [asset, setAsset] = useState<ImagePickerAsset | null>(null);
 
     const getMbValueFromFile = (asset: ImagePickerAsset | null): string => {
         if (asset === null || asset?.fileSize === undefined)
@@ -21,20 +21,22 @@ export default function ChoosePhoto({ onSuccessfullUpload }: ChoosePhotoProps) {
         return `${(asset.fileSize / bytesToMbFormula).toFixed(2)} MB`
     }
 
-    const handlePhotoPick = async () => {
-        const result = await launchImageLibraryAsync({ allowsMultipleSelection: true, selectionLimit: 1 });
-        if (result.canceled)
-            return;
+    const handlePhotoPick = () => {
+        launchImageLibraryAsync({ allowsMultipleSelection: true, selectionLimit: 1 })
+            .then((result) => {
+                if (result.canceled)
+                    return;
 
-        const image = result.assets[0]
-
-        const uploadResult = await handleImageUpload(image);
-
-        if (uploadResult) {
-            setAsset(image)
-            onSuccessfullUpload(uploadResult)
-        }
-
+                const image = result.assets[0];
+                return handleImageUpload(image).then(result => ({ result, image }))
+            }).then((uploadResult) => {
+                if (uploadResult !== undefined && uploadResult.result !== null) {
+                    setAsset(uploadResult.image)
+                    onSuccessfullUpload(uploadResult.result)
+                }
+            }).catch((error) => {
+                console.log(error)
+            });
     }
 
     const handleImageUpload = async (image: ImagePickerAsset): Promise<number | null> => {
@@ -50,7 +52,7 @@ export default function ChoosePhoto({ onSuccessfullUpload }: ChoosePhotoProps) {
             name: image.fileName
         }, null)
 
-        return await UserBookItemService
+        return UserBookItemService
             .uploadBookImage(formData)
             .then(data => data.imageId)
             .catch(e => {

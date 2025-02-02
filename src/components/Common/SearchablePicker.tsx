@@ -3,7 +3,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import Plus from "svg/plus.svg";
 import { useEffect, useState } from "react";
 import { SearchableType } from "../../types/SearchableType";
-import SearchableService from "../../services/SearchableService";
+import { SearchableService } from "../../services/Abstract/SearchableService";
 
 export type SearchablePickerProps<T extends SearchableType> = {
     sideButtonAction?: null | (() => void);

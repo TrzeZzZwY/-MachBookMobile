@@ -35,7 +35,7 @@ export default function ChooseBook({sideButtonAction, onChange}: ChooseBookProps
                 sideButtonAction={sideButtonAction}
                 onChange={onChange}
                 dropdownItemRenderer={renderDropdownItemForBook}
-                service={new BookService()}
+                service={BookService}
                 placeholder="Wybierz książkę"
                 searchPlaceholder="Wyszukaj książkę..." />
         </View>

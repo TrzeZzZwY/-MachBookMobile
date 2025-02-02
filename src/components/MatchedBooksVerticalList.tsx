@@ -44,7 +44,7 @@ export default function MatchedBooksVerticalList() {
   return data == null ? (
     <Text>Loading...</Text>
   ) : (
-    <VerticalList data={data} header="Twoje zmatchowane książki">
+    <VerticalList data={data} onRefresh={() => new Promise<void>(() => null)}>
       <ListActionButton
         action={messageAction}
         backgroundColor={"#DAE6FF"}

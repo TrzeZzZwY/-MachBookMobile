@@ -21,7 +21,6 @@ export default function ChooseAuthor({sideButtonAction,onChange} : ChooseAuthorP
             <View className="bg-neutral-100 py-1 px-2 rounded-md">
                 <Text className="font-roboto-bold text-neutral-800">{item.yearOfBirth}</Text>
             </View>
-
         </View>
     }
 
@@ -32,7 +31,7 @@ export default function ChooseAuthor({sideButtonAction,onChange} : ChooseAuthorP
                 sideButtonAction={sideButtonAction}
                 onChange={onChange}
                 dropdownItemRenderer={renderDropdownItemForAuthor}
-                service={new AuthorService()}
+                service={AuthorService}
                 placeholder="Wybierz autora"
                 searchPlaceholder="Wyszukaj autora..." />
         </View>

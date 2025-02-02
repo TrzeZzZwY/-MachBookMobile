@@ -1,18 +1,11 @@
-import { ImagePickerAsset, launchImageLibraryAsync } from "expo-image-picker";
-import { useState } from "react";
-import { Text, Modal, Image, View, TouchableOpacity, useAnimatedValue, Animated } from "react-native";
+import { useContext, useState } from "react";
+import { Text, Modal, View, TouchableOpacity, useAnimatedValue, Animated } from "react-native";
 import Times from "svg/times.svg";
 import ArrowLeft from "svg/arrowLeft.svg";
 import CommonHeader from "../Common/CommonHeader";
 import CommonInput from "../Common/CommonInput";
 import SectionDivider from "../Common/SectionDivider";
-import SearchablePicker from "../Common/SearchablePicker";
-import AuthorService from "../../services/AuthorService";
 import BookService from "../../services/BookService";
-import BookType from "../../types/BookType";
-import { AuthorType } from "../../types/AuthorType";
-import Upload from 'svg/upload.svg';
-import UserBookItemService from "../../services/UserBookItemService";
 import { UserBookItemUploadType } from "../../types/UserBookItemType";
 import { UserBookItemStatus } from "../../types/UserBookItemStatus";
 import usePopup from "hooks/usePopup/usePopup";
@@ -20,6 +13,8 @@ import AddAuthor from "../Popups/AddAuthor/AddAuthor";
 import ChooseBook from "../ChooseBook";
 import ChooseAuthor from "../ChooseAuthor";
 import ChoosePhoto from "../ChoosePhoto";
+import UserBookContext from "../../contexts/UserBookContext/UserBookContext";
+import UserBookItemService from "services/UserBookItemService";
 
 export type AddBookModalProps = {
     isOpen: boolean,
@@ -32,6 +27,10 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
     const [autorId, setAuthorId] = useState<null | number>(null);
     const [imageId, setImageId] = useState<number | null>(null);
     const [bookId, setBookId] = useState<number | null>(null);
+
+    
+    const {setData} = useContext(UserBookContext);
+
 
     const [isViewSwapped, swapView] = useState<boolean>(false);
 
@@ -50,19 +49,16 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
         setTitle(text);
     }
 
-    const handleBookCreation = async () => {
+    const handleBookCreation = () => {
         if (!title || !autorId)
             return;
 
-        await BookService
-            .createBook(title, autorId)
+        BookService.createBook(title, autorId)
             .then(() => handleViewSwap(false))
+            .catch(console.log)
     }
 
-    const handleUserBookItemCreation = async () => {
-
-        console.log(title, bookId, imageId)
-
+    const handleUserBookItemCreation = () => {
         if (!title || !bookId || !imageId)
             return;
 
@@ -74,10 +70,13 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
             imageId: imageId
         }
 
-        await UserBookItemService
+        UserBookItemService
             .createUserBookItem(userBookItem)
-            .then(close)
-            .catch(e => console.log(e))
+            .then(() =>  UserBookItemService.getUserBooks(1,50, true))
+            .then((result) => {
+                close();
+                setData(result.items);
+            }).catch(console.log)
     }
 
     const handleViewSwap = (swap: boolean) => {
@@ -142,7 +141,7 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
                         </View>
                         <View className="w-[50%]" onLayout={(event) => setSecondPickerBoxHeight(event.nativeEvent.layout.height)}>
                             <View className="mt-5">
-                                <ChooseAuthor sideButtonAction={openPopup} onChange={(item) => item ? setAuthorId(item.id) : setAuthorId(null)} />
+                                <ChooseAuthor sideButtonAction={() => openPopup("Dodaj autora")} onChange={(item) => item ? setAuthorId(item.id) : setAuthorId(null)} />
                             </View>
                             <View className="mt-5">
                                 <CommonHeader text="Podaj tytuł książki" />
