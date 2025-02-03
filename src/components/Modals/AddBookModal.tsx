@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Text, Modal, View, TouchableOpacity, useAnimatedValue, Animated } from "react-native";
+import { Text, Modal, View, TouchableOpacity, useAnimatedValue, Animated, SafeAreaView } from "react-native";
 import Times from "svg/times.svg";
 import ArrowLeft from "svg/arrowLeft.svg";
 import CommonHeader from "../Common/CommonHeader";
@@ -15,6 +15,8 @@ import ChooseAuthor from "../ChooseAuthor";
 import ChoosePhoto from "../ChoosePhoto";
 import UserBookContext from "../../contexts/UserBookContext/UserBookContext";
 import UserBookItemService from "services/UserBookItemService";
+import { StatusBar } from "react-native";
+import SystemNavigationBar from "react-native-system-navigation-bar";
 
 export type AddBookModalProps = {
     isOpen: boolean,
@@ -28,8 +30,8 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
     const [imageId, setImageId] = useState<number | null>(null);
     const [bookId, setBookId] = useState<number | null>(null);
 
-    
-    const {setData} = useContext(UserBookContext);
+
+    const { setData } = useContext(UserBookContext);
 
 
     const [isViewSwapped, swapView] = useState<boolean>(false);
@@ -72,7 +74,7 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
 
         UserBookItemService
             .createUserBookItem(userBookItem)
-            .then(() =>  UserBookItemService.getUserBooks(1,50, true))
+            .then(() => UserBookItemService.getUserBooks(1, 50, true))
             .then((result) => {
                 close();
                 setData(result.items);
@@ -111,8 +113,8 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
             isViewSwapped ? handleViewSwap(false) : close()
     }
 
-    return <Modal visible={isOpen} onRequestClose={() => manageWindowsClose()} className="relative">
-        <View className="px-5">
+    return <Modal animationType="slide" statusBarTranslucent visible={isOpen} onRequestClose={() => manageWindowsClose()}>
+        <View className="px-5 h-[100vh]" style={{ marginTop: StatusBar.currentHeight }}>
             <View className="flex flex-row justify-between mt-5">
                 <Animated.View style={{ opacity: buttonAnimation }}>
                     <TouchableOpacity onPress={() => handleViewSwap(false)} className="h-10 rounded-md border border-3 bg-neutral-900 flex flex-row items-center justify-center px-4">
@@ -121,8 +123,8 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
                     </TouchableOpacity>
                 </Animated.View>
                 <View>
-                    <TouchableOpacity onPress={close} className="h-10 w-10 rounded-md border border-3 border-neutral-200 flex items-center justify-center">
-                        <Times className="w-3 h-3 p-3" fill={'#D4D4D4'} />
+                    <TouchableOpacity onPress={close} className="h-10 w-10 rounded-md bg-neutral-200 flex items-center justify-center">
+                        <Times className="w-3 h-3 p-3" fill={'#9f9fa9'} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -169,8 +171,9 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
                 </TouchableOpacity>
             </View>
         </View>
-        <Popup header="Dodaj autora">
+        <Popup>
             <AddAuthor onCreate={closePopup} />
         </Popup>
+
     </Modal>
 }

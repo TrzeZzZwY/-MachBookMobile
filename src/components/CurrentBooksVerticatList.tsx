@@ -59,6 +59,7 @@ export default function CurrentBooksVerticalList() {
         <MagnifyingGlass className="w-4 h-4 absolute top-[30%] left-[10]" fill={"#a1a1a1"} />
       </View>
       <VerticalList 
+        className="h-[63vh]"
         data={context.data} 
         onRefresh={onRefresh} 
         renderRow={(item) => <CurrentBooksVerticalListRow data={item} />} 
