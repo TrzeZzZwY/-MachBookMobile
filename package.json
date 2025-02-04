@@ -28,7 +28,8 @@
     "react-native-maps": "1.14.0",
     "react-native-modal": "^13.0.1",
     "react-native-svg": "15.2.0",
-    "react-native-system-navigation-bar": "^2.6.4"
+    "react-native-system-navigation-bar": "^2.6.4",
+    "@react-native-async-storage/async-storage": "1.23.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

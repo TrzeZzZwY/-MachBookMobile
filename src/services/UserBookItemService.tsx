@@ -1,4 +1,4 @@
-import axiosInstance from "../axios/axiosInstance";
+import axiosInstance from "../axios/axios";
 import { IdType } from "../types/IdType";
 import ImageIdType from "../types/ImageIdType";
 import { Pagination } from "../types/Pagination";

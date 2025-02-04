@@ -1,4 +1,4 @@
-import axiosInstance from "../axios/axiosInstance";
+import axiosInstance from "../axios/axios";
 import { Pagination } from "../types/Pagination";
 import { SearchableService } from "./Abstract/SearchableService";
 import BookModel from "../models/BookModel";

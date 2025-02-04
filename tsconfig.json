@@ -11,7 +11,8 @@
       "appConfig": ["./config.json"],
       "hooks/*": ["./src/hooks/*"],
       "services/*": ["./src/services/*"],
-      "declarations": ["./app-declarations.d.ts"]
+      "declarations": ["./app-declarations.d.ts"],
+      "types/*": ["./src/types/*"]
     }
   },
   "include": [
