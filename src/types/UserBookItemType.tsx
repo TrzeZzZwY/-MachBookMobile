@@ -12,7 +12,6 @@ export interface UserBookItemType extends SearchableType {
 }
 
 export interface UserBookItemUploadType {
-    userId: number,
     description: string,
     status: keyof typeof UserBookItemStatus,
     bookReferenceId: number,

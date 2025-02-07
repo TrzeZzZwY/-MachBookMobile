@@ -2,8 +2,11 @@ import { TouchableOpacity, View, Image, Text } from "react-native";
 import CommonHeader from "./Common/CommonHeader";
 import React, { useState } from "react";
 import Upload from "svg/upload.svg";
-import UserBookItemService from "services/UserBookItemService";
+import UserBookItemService from "../urlBuilders/UserBookItemUrlBuilder";
 import { ImagePickerAsset, launchImageLibraryAsync } from "expo-image-picker";
+import useAxios from "hooks/useAxios";
+import UserBookItemUrlBuilder from "../urlBuilders/UserBookItemUrlBuilder";
+import ImageIdType from "types/ImageIdType";
 
 export type ChoosePhotoProps = {
     onSuccessfullUpload: (imageId: number) => void
@@ -12,6 +15,7 @@ export type ChoosePhotoProps = {
 export default function ChoosePhoto({ onSuccessfullUpload }: ChoosePhotoProps) {
 
     const [asset, setAsset] = useState<ImagePickerAsset | null>(null);
+    const axios = useAxios();
 
     const getMbValueFromFile = (asset: ImagePickerAsset | null): string => {
         if (asset === null || asset?.fileSize === undefined)
@@ -42,6 +46,7 @@ export default function ChoosePhoto({ onSuccessfullUpload }: ChoosePhotoProps) {
     const handleImageUpload = async (image: ImagePickerAsset): Promise<number | null> => {
 
         const formData = new FormData();
+        const url = UserBookItemUrlBuilder.uploadBookImage();
 
         if (!image.mimeType || !image.fileName)
             return null;
@@ -52,13 +57,12 @@ export default function ChoosePhoto({ onSuccessfullUpload }: ChoosePhotoProps) {
             name: image.fileName
         }, null)
 
-        return UserBookItemService
-            .uploadBookImage(formData)
-            .then(data => data.imageId)
-            .catch(e => {
-                console.log(e)
-                return null;
-            });
+        return axios.post<ImageIdType>(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => response.data.imageId)
+
     }
 
     return (

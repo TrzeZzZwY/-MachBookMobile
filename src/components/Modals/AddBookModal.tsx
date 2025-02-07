@@ -5,8 +5,8 @@ import ArrowLeft from "svg/arrowLeft.svg";
 import CommonHeader from "../Common/CommonHeader";
 import CommonInput from "../Common/CommonInput";
 import SectionDivider from "../Common/SectionDivider";
-import BookService from "../../services/BookService";
-import { UserBookItemUploadType } from "../../types/UserBookItemType";
+import BookService from "../../urlBuilders/BookUrlBuilder";
+import { UserBookItemType, UserBookItemUploadType } from "../../types/UserBookItemType";
 import { UserBookItemStatus } from "../../types/UserBookItemStatus";
 import usePopup from "hooks/usePopup/usePopup";
 import AddAuthor from "../Popups/AddAuthor/AddAuthor";
@@ -14,9 +14,14 @@ import ChooseBook from "../ChooseBook";
 import ChooseAuthor from "../ChooseAuthor";
 import ChoosePhoto from "../ChoosePhoto";
 import UserBookContext from "../../contexts/UserBookContext/UserBookContext";
-import UserBookItemService from "services/UserBookItemService";
+import UserBookItemService from "../../urlBuilders/UserBookItemUrlBuilder";
 import { StatusBar } from "react-native";
 import SystemNavigationBar from "react-native-system-navigation-bar";
+import useAxios from "hooks/useAxios";
+import { IdType } from "types/IdType";
+import BookUrlBuilder from "../../urlBuilders/BookUrlBuilder";
+import { Pagination } from "types/Pagination";
+import AuthContext from "../../contexts/AuthorizationContext/AuthContext";
 
 export type AddBookModalProps = {
     isOpen: boolean,
@@ -25,12 +30,14 @@ export type AddBookModalProps = {
 
 export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
 
+    const axios = useAxios();
+
     const [title, setTitle] = useState<null | string>(null);
     const [autorId, setAuthorId] = useState<null | number>(null);
     const [imageId, setImageId] = useState<number | null>(null);
     const [bookId, setBookId] = useState<number | null>(null);
 
-
+    const auth = useContext(AuthContext);
     const { setData } = useContext(UserBookContext);
 
 
@@ -55,9 +62,14 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
         if (!title || !autorId)
             return;
 
-        BookService.createBook(title, autorId)
-            .then(() => handleViewSwap(false))
-            .catch(console.log)
+        const url = BookUrlBuilder.createBook();
+
+        axios.post<IdType>(url,{
+            title: title,
+            authorsIds: [
+                autorId
+            ]
+        }).then(() => handleViewSwap(false))
     }
 
     const handleUserBookItemCreation = () => {
@@ -65,19 +77,24 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
             return;
 
         const userBookItem: UserBookItemUploadType = {
-            userId: 1,
             status: UserBookItemStatus[UserBookItemStatus.ActivePublic] as keyof typeof UserBookItemStatus,
             description: title,
             bookReferenceId: bookId,
             imageId: imageId
         }
 
-        UserBookItemService
-            .createUserBookItem(userBookItem)
-            .then(() => UserBookItemService.getUserBooks(1, 50, true))
+        console.log("-----------------------------------");
+        console.log(userBookItem);
+        console.log("-----------------------------------");
+
+        const url = UserBookItemService.createUserBookItem();
+        const fetchUrl = UserBookItemService.getUserBooks(1,10,auth.userId);
+
+        axios.post<IdType>(url,userBookItem)
+            .then((result) => axios.get<Pagination<UserBookItemType>>(fetchUrl))
             .then((result) => {
                 close();
-                setData(result.items);
+                setData(result.data.items);
             }).catch(console.log)
     }
 

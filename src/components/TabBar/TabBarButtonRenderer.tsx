@@ -5,16 +5,18 @@ import Map from "svg/map.svg";
 
 import TabBarButton from "./TabBarButton";
 
+export const MATCH_ROUTE_NAME = "Match"
+export const LIST_ROUTE_NAME = "List"
+export const PROFILE_ROUTE_NAME = "Profile"
+export const MAP_ROUTE_NAME = "Map"
+
 export class TabBarButtonRenderer
 {
-  static MATCH_ROUTE_NAME = "match"
-  static LIST_ROUTE_NAME = "list"
-  static PROFILE_ROUTE_NAME = "profile"
-  static MAP_ROUTE_NAME = "map"
+  
 
   static RenderButtonByRouteName(routeName: string, onClick: () => void, isActive: boolean): React.ReactElement | null {
     switch (routeName) {
-      case this.MATCH_ROUTE_NAME:
+      case MATCH_ROUTE_NAME:
         return (
           <TabBarButton
             Component={Hearth}
@@ -24,7 +26,7 @@ export class TabBarButtonRenderer
             onClick={onClick}
           />
         );
-      case this.LIST_ROUTE_NAME:
+      case LIST_ROUTE_NAME:
         return (
           <TabBarButton
             Component={List}
@@ -34,7 +36,7 @@ export class TabBarButtonRenderer
             onClick={onClick}
           />
         );
-      case this.PROFILE_ROUTE_NAME:
+      case PROFILE_ROUTE_NAME:
         return (
           <TabBarButton
             Component={User}
@@ -44,7 +46,7 @@ export class TabBarButtonRenderer
             onClick={onClick}
           />
         );
-      case this.MAP_ROUTE_NAME:
+      case MAP_ROUTE_NAME:
         return (
           <TabBarButton
             Component={Map}

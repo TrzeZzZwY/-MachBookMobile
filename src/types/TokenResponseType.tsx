@@ -1,4 +1,4 @@
 export type TokenResponseType = {
-    token: string | null,
-    refreshToken: string | null
+    token: string,
+    refreshToken: string
 }

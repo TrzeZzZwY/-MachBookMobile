@@ -10,7 +10,7 @@
       "assets/*": ["./assets/*"],
       "appConfig": ["./config.json"],
       "hooks/*": ["./src/hooks/*"],
-      "services/*": ["./src/services/*"],
+      "services/*": ["./src/urlBuilders/*"],
       "declarations": ["./app-declarations.d.ts"],
       "types/*": ["./src/types/*"]
     }

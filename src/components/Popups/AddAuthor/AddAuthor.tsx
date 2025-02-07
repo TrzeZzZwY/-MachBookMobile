@@ -3,13 +3,17 @@ import CommonInput from "../../Common/CommonInput";
 import { useEffect, useState } from "react";
 import Loader from 'svg/loader.svg';
 import { AuthorType } from "../../../types/AuthorType";
-import AuthorService from "../../../services/AuthorService";
+import AuthorService from "../../../urlBuilders/AuthorUrlBuilder";
+import useAxios from "hooks/useAxios";
+import AuthorUrlBuilder from "../../../urlBuilders/AuthorUrlBuilder";
 
 export type AddAuthorProps = {
     onCreate: (author: AuthorType) => void;
 }
 
 export default function AddAuthor({ onCreate }: AddAuthorProps) {
+    
+    const axios = useAxios();
 
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
@@ -49,7 +53,8 @@ export default function AddAuthor({ onCreate }: AddAuthorProps) {
         setBirthYear(parseInt(value))
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
+        const url = AuthorUrlBuilder.createNewAuthor();
 
         if (birthYear === null)
             return;
@@ -63,14 +68,12 @@ export default function AddAuthor({ onCreate }: AddAuthorProps) {
             label: ""
         }
 
-        setLoading(true)
+        setLoading(true);
 
-        await AuthorService
-            .createNewAuthor(newAuthor)
-            .finally(() => {
+        axios.post(url,newAuthor).finally(() => {
                 setLoading(false)
                 onCreate(newAuthor)
-            })
+            });
     }
 
     return (
@@ -96,7 +99,7 @@ export default function AddAuthor({ onCreate }: AddAuthorProps) {
                                 })
                             }]
                         }}>
-                            <Loader className="h-5 w-5" />
+                            <Loader className="h-5 w-5" fill={"white"}/>
                         </Animated.View> : <Text className="color-white font-roboto-bold mr-2 text-md">Dodaj Autora</Text>}
                 </TouchableOpacity>
             </View>

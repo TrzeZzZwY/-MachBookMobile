@@ -9,8 +9,11 @@ import ListDeleteButton from "../../ListDeleteButton";
 import EditIcon from "svg/edit.svg";
 import { Portal } from "@gorhom/portal";
 import usePopup from "hooks/usePopup/usePopup";
-import UserBookItemService from "services/UserBookItemService";
+import UserBookItemService from "../../../../urlBuilders/UserBookItemUrlBuilder";
 import UserBookContext from "../../../../contexts/UserBookContext/UserBookContext";
+import useAxios from "hooks/useAxios";
+import AuthContext from "../../../../contexts/AuthorizationContext/AuthContext";
+import { Pagination } from "types/Pagination";
 
 export type VerticalListRowProps = {
   data: UserBookItemType;
@@ -18,7 +21,8 @@ export type VerticalListRowProps = {
 
 export default function CurrentBooksVerticalListRow({ data }: VerticalListRowProps) {
 
-  const imageUrl = appConfig.apiEndpoint + `/UserBookItem/image/${data.imageId}`;
+  const axios = useAxios();
+  const auth = useContext(AuthContext);
 
   const context = useContext(UserBookContext);
   const [isOpen, open, close, Popup] = usePopup();
@@ -30,11 +34,18 @@ export default function CurrentBooksVerticalListRow({ data }: VerticalListRowPro
     [data.bookReference.authors]
   );
 
+  const imageUrl = appConfig.apiEndpoint + `/UserBookItem/image/${data.imageId}`;
+
   const onDelete = () => {
-    UserBookItemService
-      .deleteUserBookItem(data.id)
-      .then(() =>  UserBookItemService.getUserBooks(1,10))
-      .then((result) => context.setData(result.items))
+
+    var url = UserBookItemService.deleteUserBookItem(data.id);
+    var booksUrl = UserBookItemService.getUserBooks(1,10,auth.userId);
+
+    axios
+      .delete(url)
+      .then(() => axios.get<Pagination<UserBookItemType>>(booksUrl))
+      .then(response => response.data)
+      .then(data => context.setData(data.items))
       .catch(console.log)
       .finally(close)
   }

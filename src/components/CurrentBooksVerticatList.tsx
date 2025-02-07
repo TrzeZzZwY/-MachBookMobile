@@ -6,20 +6,37 @@ import { ColorValue, TextInput, View, Text } from "react-native";
 import ListHeader from "./List/ListHeader";
 import { useContext, useEffect, useState } from "react";
 import UserBookContext from "../contexts/UserBookContext/UserBookContext";
-import UserBookItemService from "services/UserBookItemService";
+import UserBookItemService from "../urlBuilders/UserBookItemUrlBuilder";
 import MagnifyingGlass from "svg/magnifying-glass.svg";
 import usePopup from "hooks/usePopup/usePopup";
 import { Portal } from "@gorhom/portal";
 import CurrentBooksVerticalListRow from "./List/VerticalList/RowDefinitions/CurrentBooksVerticalListRow";
+import useAxios from "hooks/useAxios";
+import UserBookItemUrlBuilder from "../urlBuilders/UserBookItemUrlBuilder";
+import { Pagination } from "types/Pagination";
+import { UserBookItemType } from "types/UserBookItemType";
+import AuthContext from "../contexts/AuthorizationContext/AuthContext";
 
 export default function CurrentBooksVerticalList() {
 
+  const auth = useContext(AuthContext);
   const context = useContext(UserBookContext);
+  const axios = useAxios();
   const [inputTimeout, setInputTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    const url = UserBookItemUrlBuilder.getUserBooks(1,10,auth.userId, true);
+    axios.get<Pagination<UserBookItemType>>(url)
+      .then(result => result.data)
+      .then(result => result.items)
+      .then(context.setData)
+      .catch(console.log)
+  }, [])
+
   const onRefresh = () => {
-    return UserBookItemService
-      .getUserBooks(1, 10)
+    const url = UserBookItemUrlBuilder.getUserBooks(1,10,auth.userId, true);
+    return axios.get<Pagination<UserBookItemType>>(url)
+      .then(result => result.data)
       .then(result => result.items)
       .then(context.setData)
       .catch(console.log)
@@ -33,23 +50,17 @@ export default function CurrentBooksVerticalList() {
       clearTimeout(inputTimeout);
 
     const timeout = setTimeout(() => {
-      UserBookItemService
-        .searchItems(text)
+      const url = UserBookItemUrlBuilder.searchItems(text);
+
+      axios.get<Pagination<UserBookItemType>>(url)
+        .then(response => response.data)
+        .then(response => response.items)
         .then(context.setData)
     }, INPUT_TIMEOUT)
 
     setInputTimeout(timeout);
 
   }
-
-  useEffect(() => {
-    UserBookItemService
-      .getUserBooks(1, 10)
-      .then(result => result.items)
-      .then(context.setData)
-      .catch(console.log)
-  }, [])
-
 
   return (
     <>

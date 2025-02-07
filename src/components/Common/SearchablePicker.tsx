@@ -2,14 +2,17 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Plus from "svg/plus.svg";
 import { useEffect, useState } from "react";
-import { SearchableType } from "../../types/SearchableType";
-import { SearchableService } from "../../services/Abstract/SearchableService";
+import { SearchableUrlBuilder } from "services/abstract/SearchableUrlBuilder";
+import { SearchableType } from "types/SearchableType";
+import useAxios from "hooks/useAxios";
+import { Pagination } from "types/Pagination";
 
 export type SearchablePickerProps<T extends SearchableType> = {
     sideButtonAction?: null | (() => void);
     onChange: (item: T | null) => void;
     dropdownItemRenderer: (item: T) => JSX.Element;
-    service: SearchableService<T>;
+    mapper: (item: T) => T;
+    service: SearchableUrlBuilder<T>;
     placeholder: string;
     searchPlaceholder: string;
 }
@@ -34,8 +37,9 @@ const dropdownStyles = StyleSheet.create({
     }
 });
 
-export default function SearchablePicker<T extends SearchableType>({ onChange, dropdownItemRenderer, service, placeholder, searchPlaceholder, sideButtonAction = null }: SearchablePickerProps<T>) {
+export default function SearchablePicker<T extends SearchableType>({ onChange, dropdownItemRenderer, service, placeholder, mapper, searchPlaceholder, sideButtonAction = null }: SearchablePickerProps<T>) {
 
+    const axios = useAxios();
     const [searchTimeout, setSearchTimeout] = useState<null | ReturnType<typeof setTimeout>>(null);
     const [items, setItems] = useState<null | T[]>(null);
 
@@ -43,11 +47,14 @@ export default function SearchablePicker<T extends SearchableType>({ onChange, d
         seatchItems("")
     }, [])
 
-    const seatchItems = async (query: string) => {
-        await service
-            .searchItems(query)
-            .then(setItems)
+    const seatchItems = (query: string) => {
+
+        axios.get<Pagination<T>>(service.searchItems(query))
+            .then(response => response.data)
+            .then(data => data.items.map(mapper))
+            .then(setItems);
     }
+
 
     const handleSearch = (searchTerm: string) => {
         if (searchTerm === '')

@@ -8,7 +8,8 @@ export default function App() {
     "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"),
     "Roboto-Black": require("./assets/fonts/Roboto-Black.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
-    "Merriweather": require("./assets/fonts/Merriweather-Regular.ttf")
+    "Merriweather": require("./assets/fonts/Merriweather-Regular.ttf"),
+    "Merriweather-Bold": require("./assets/fonts/Merriweather-Bold.ttf")
   })
 
   if(!fontsLoaded) {

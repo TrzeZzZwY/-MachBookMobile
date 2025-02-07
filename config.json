@@ -1,3 +1,13 @@
 {
-    "apiEndpoint": "http://192.168.1.100/api"
+    "apiAuthEndpoint": "http://192.168.1.100:8002/api",
+    "apiAuthPaths": {
+        "user": "User",
+        "auth": "Auth"
+    },
+    "apiEndpoint": "http://192.168.1.100:8001/api",
+    "apiPaths": {
+        "author": "Author",
+        "book": "Book",
+        "userBookItem": "UserBookItem"
+    }
 }

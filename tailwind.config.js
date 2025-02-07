@@ -6,7 +6,8 @@ module.exports = {
       "roboto-black": ["Roboto-Black"],
       "roboto-light": ["Roboto-Light"],
       "roboto-bold": ["Roboto-Bold"],
-      "merriweather": ["Merriweather"]
+      "merriweather": ["Merriweather"],
+      "merriweather-bold": ["Merriweather-Bold"]
     },
     extend: {},
   },
