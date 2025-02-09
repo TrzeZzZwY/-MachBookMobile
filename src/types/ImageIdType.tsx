@@ -1,3 +1,3 @@
 export default interface ImageIdType {
-    imageId: number
+  imageId: number;
 }

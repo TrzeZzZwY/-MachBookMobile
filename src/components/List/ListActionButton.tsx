@@ -1,13 +1,16 @@
 import { ColorValue, Pressable, View } from "react-native";
 
 type ListDeleteButtonProps = {
-  icon: React.ReactElement,
+  icon: React.ReactElement;
   backgroundColor: ColorValue;
   action: () => void;
 };
 
-export default function ListActionButton({ backgroundColor, action, icon }: ListDeleteButtonProps) {
-
+export default function ListActionButton({
+  backgroundColor,
+  action,
+  icon,
+}: ListDeleteButtonProps) {
   return (
     <View>
       <Pressable

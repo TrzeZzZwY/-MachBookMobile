@@ -5,13 +5,10 @@ import BooksMatchedByOthersUsersList from "../components/BooksMatchedByOtherUser
 
 export default function ListPage() {
   return (
-    <View>
-      <View>
-        <BooksMatchedByOthersUsersList />
-        <View className="mx-5">
-          {/* <MatchedBooksVerticalList /> */}
-          <CurrentBooksVerticalList />
-        </View>
+    <View className="flex-1">
+      <BooksMatchedByOthersUsersList />
+      <View className="flex-1 mx-4">
+        <CurrentBooksVerticalList />
       </View>
     </View>
   );

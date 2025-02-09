@@ -1,3 +1,3 @@
 export interface IdType {
-    id: number
+  id: number;
 }

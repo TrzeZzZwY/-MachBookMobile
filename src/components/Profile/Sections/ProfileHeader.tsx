@@ -2,18 +2,14 @@ import { useAssets } from "expo-asset";
 import { Text, View, Image } from "react-native";
 
 export default function ProfileHeader() {
-  const [assets, error] = useAssets(require("../../../../assets/images/user.png"));
+  const [assets, error] = useAssets(
+    require("../../../../assets/images/user.png")
+  );
 
   return (
     <View className="h-40 relative">
       <View>
-        <View
-          className="bg-yellow-200 h-[50%] border-b-2"
-          style={{
-            backgroundColor: "#DFD5C6",
-            borderColor: "#AA9F8E",
-          }}
-        ></View>
+        <View className="bg-purple-300 h-[50%] "></View>
         <View className=" h-20"></View>
       </View>
       <View className="flex-1 flex-wrap justify-center inset-0 w-full h-full absolute">
@@ -21,6 +17,7 @@ export default function ProfileHeader() {
           <View className="w-20 h-full mr-8 mt-[-8]">
             {assets != undefined ? (
               <View className="bg-red-500 h-[100] w-[100] rounded-full" />
+            ) : (
               // <Image
               //   source={{
               //     uri: assets[0].uri,
@@ -33,12 +30,13 @@ export default function ProfileHeader() {
               //   }}
               //   className="rounded-full shadow-lg"
               // />
-            ) : (
               <View className="bg-black" />
             )}
           </View>
           <View className="flex h-20 justify-center mt-[-6]">
-            <Text className="text-2xl font-roboto-light mb-2">Dawid Jasper</Text>
+            <Text className="text-2xl font-roboto-light mb-2">
+              Dawid Jasper
+            </Text>
             <Text className="font-bold text-md">11.09.2001</Text>
           </View>
         </View>

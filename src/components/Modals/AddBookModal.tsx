@@ -83,10 +83,6 @@ export default function AddBookModal({ isOpen, close }: AddBookModalProps) {
             imageId: imageId
         }
 
-        console.log("-----------------------------------");
-        console.log(userBookItem);
-        console.log("-----------------------------------");
-
         const url = UserBookItemService.createUserBookItem();
         const fetchUrl = UserBookItemService.getUserBooks(1,10,auth.userId);
 

@@ -1,20 +1,20 @@
-import  BookType from "./BookType";
+import BookType from "./BookType";
 import { SearchableType } from "./SearchableType";
 import { UserBookItemStatus } from "./UserBookItemStatus";
 
 export interface UserBookItemType extends SearchableType {
-    id: number,
-    userId: number,
-    status: UserBookItemStatus,
-    description: string,
-    bookReference: BookType,
-    imageId: number
+  id: number;
+  userId: number;
+  status: UserBookItemStatus;
+  description: string;
+  bookReference: BookType;
+  imageId: number;
 }
 
 export interface UserBookItemUploadType {
-    description: string,
-    status: keyof typeof UserBookItemStatus,
-    bookReferenceId: number,
-    bookPointId?: number | null,
-    imageId: number
+  description: string;
+  status: keyof typeof UserBookItemStatus;
+  bookReferenceId: number;
+  bookPointId?: number | null;
+  imageId: number;
 }

@@ -1,8 +1,8 @@
 export enum UserBookItemStatus {
-    Unspecified = 0,
-    ActivePublic = 1,
-    ActivePrivate = 2,
-    Disabled = 3,
-    Removed = 4,
-    BookPoint = 5
+  Unspecified = 0,
+  ActivePublic = 1,
+  ActivePrivate = 2,
+  Disabled = 3,
+  Removed = 4,
+  BookPoint = 5,
 }

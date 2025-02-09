@@ -6,73 +6,80 @@ import { TokenResponseType } from "types/TokenResponseType";
 import AuthUrlBuilder from "services/AuthUrlBuilder";
 
 type AxiosRepetableRequest = {
-  sent: boolean
-}
+  sent: boolean;
+};
 
 export default function useAxios() {
+  const internalAxiosInstance = axiosPrivate;
   const context = useContext(AuthContext);
 
   const refreshToken = () => {
     const refreshPath = AuthUrlBuilder.refresh();
+
+    console.log("Refreshing current token...");
+
     return axiosAuth
-      .post<TokenResponseType>(refreshPath, {refreshToken: context.refreshToken},{
+      .post<TokenResponseType>(
+        refreshPath,
+        { refreshToken: context.refreshToken },
+        {
           headers: {
-            "Authorization" : `Bearer ${context.token}`
-          }
-        })
-      .then(data => data.data)
-  } 
+            Authorization: `Bearer ${context.token}`,
+          },
+        }
+      )
+      .then((data) => data.data);
+  };
 
   useEffect(() => {
-    const request = axiosPrivate.interceptors.request.use(
+    const request = internalAxiosInstance.interceptors.request.use(
       (request) => {
         if (!request.headers["Authorization"]) {
           request.headers["Authorization"] = `Bearer ${context.token}`;
         }
 
-        console.log(request)
-
-        return Promise.resolve(request);
+        return request;
       },
       (error) => Promise.reject(error)
     );
 
-    const response = axiosPrivate.interceptors.response.use(
-      (response) => {
-        console.log(response);
-        return response;
-      },
+    const response = internalAxiosInstance.interceptors.response.use(
+      (response) => response,
       async (error) => {
-        const request = error?.config as (AxiosRepetableRequest & AxiosRequestConfig) | undefined;
+        const request = error?.config as
+          | (AxiosRepetableRequest & AxiosRequestConfig)
+          | undefined;
 
-        if (request?.headers && error?.response?.status === 403 && request?.sent !== true) {
+        if (
+          request?.headers &&
+          error?.response?.status === 403 &&
+          request?.sent !== true
+        ) {
           const tokenResponse = await refreshToken();
-          if(!tokenResponse)
-            return Promise.reject();
-          
-          context.signInByToken(tokenResponse.token,tokenResponse.refreshToken);
+          if (!tokenResponse) return Promise.reject();
+
+          context.signInByToken(
+            tokenResponse.token,
+            tokenResponse.refreshToken
+          );
           request.headers["Authorization"] = `Bearer ${tokenResponse.token}`;
           request.sent = true;
 
           return axiosPrivate(request);
-        } 
-
-        if((error?.response?.status === 403 || error?.response?.status === 401))
-        {
-          console.log(error)
-          context.signOut();
-          return Promise.resolve(error)
         }
+
+        if (error?.response?.status === 403 || error?.response?.status === 401)
+          context.signOut();
 
         return Promise.resolve(error);
       }
     );
 
     return () => {
-      axiosPrivate.interceptors.request.eject(request);
-      axiosPrivate.interceptors.response.eject(response);
+      internalAxiosInstance.interceptors.request.eject(request);
+      internalAxiosInstance.interceptors.response.eject(response);
     };
-  }, [context,refreshToken]);
+  }, [context.token, refreshToken]);
 
-  return axiosPrivate;
+  return internalAxiosInstance;
 }

@@ -1,5 +1,5 @@
-import { SearchableType } from "types/SearchableType"
+import { SearchableType } from "types/SearchableType";
 
 export type SearchableUrlBuilder<T extends SearchableType> = {
-    searchItems: (query: string) => string
-}
+  searchItems: (query: string) => string;
+};

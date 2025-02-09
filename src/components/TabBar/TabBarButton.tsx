@@ -15,7 +15,7 @@ export default function TabBarButton({
   Component,
   primaryColor,
   secondaryColor,
-  onClick
+  onClick,
 }: TabBarButtonProps) {
   const styles = StyleSheet.create({
     buttonStyles: {

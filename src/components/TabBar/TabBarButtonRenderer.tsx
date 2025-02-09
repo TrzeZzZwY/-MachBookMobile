@@ -5,16 +5,17 @@ import Map from "svg/map.svg";
 
 import TabBarButton from "./TabBarButton";
 
-export const MATCH_ROUTE_NAME = "Match"
-export const LIST_ROUTE_NAME = "List"
-export const PROFILE_ROUTE_NAME = "Profile"
-export const MAP_ROUTE_NAME = "Map"
+export const MATCH_ROUTE_NAME = "Match";
+export const LIST_ROUTE_NAME = "List";
+export const PROFILE_ROUTE_NAME = "Profile";
+export const MAP_ROUTE_NAME = "Map";
 
-export class TabBarButtonRenderer
-{
-  
-
-  static RenderButtonByRouteName(routeName: string, onClick: () => void, isActive: boolean): React.ReactElement | null {
+export class TabBarButtonRenderer {
+  static RenderButtonByRouteName(
+    routeName: string,
+    onClick: () => void,
+    isActive: boolean
+  ): React.ReactElement | null {
     switch (routeName) {
       case MATCH_ROUTE_NAME:
         return (

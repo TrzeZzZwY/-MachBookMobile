@@ -1,11 +1,17 @@
 import { Text, ViewProps } from "react-native";
 
 export type CommonHeaderProps = {
-  text: string,
+  text: string;
 } & ViewProps;
 
-export default function CommonHeader({ text, className, ...props }: CommonHeaderProps) {
+export default function CommonHeader({
+  text,
+  className,
+  ...props
+}: CommonHeaderProps) {
   return (
-      <Text className={`font-merriweather text-xl ${className}`} {...props}>{text}</Text>
+    <Text className={`font-merriweather text-xl ${className}`} {...props}>
+      {text}
+    </Text>
   );
 }

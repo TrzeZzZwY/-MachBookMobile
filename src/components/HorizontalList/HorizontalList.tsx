@@ -10,10 +10,7 @@ export type HorizontalListProps = {
 };
 
 export default function HorizontalList({ data }: HorizontalListProps) {
-
-  const deleteAction = () => {
-
-  }
+  const deleteAction = () => {};
 
   return (
     <HorizontalListWrapper>
@@ -22,7 +19,11 @@ export default function HorizontalList({ data }: HorizontalListProps) {
         horizontal={true}
         renderItem={(item) => (
           <HorizontalListItem item={item.item}>
-            <HorizontalListDeleteButton deleteAction={deleteAction} backgroundColor={"#000000"} color={"#FFFFFF"}/>
+            <HorizontalListDeleteButton
+              deleteAction={deleteAction}
+              backgroundColor={"#000000"}
+              color={"#FFFFFF"}
+            />
           </HorizontalListItem>
         )}
       />

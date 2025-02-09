@@ -52,7 +52,7 @@ export default function BooksMatchedByOthersUsersList() {
 
   return (
     <View className="mt-10">
-      <HorizontalList data={data}/>
+      <HorizontalList data={data} />
     </View>
   );
 }

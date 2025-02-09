@@ -2,7 +2,7 @@ import { View, Text, Pressable } from "react-native";
 import VerticalListImage from "../../ListImage";
 import { UserBookItemType } from "../../../../types/UserBookItemType";
 import { useAssets } from "expo-asset";
-import appConfig from 'appConfig';
+import appConfig from "appConfig";
 import { useContext, useMemo } from "react";
 import ListActionButton from "../../ListActionButton";
 import ListDeleteButton from "../../ListDeleteButton";
@@ -19,8 +19,9 @@ export type VerticalListRowProps = {
   data: UserBookItemType;
 };
 
-export default function CurrentBooksVerticalListRow({ data }: VerticalListRowProps) {
-
+export default function CurrentBooksVerticalListRow({
+  data,
+}: VerticalListRowProps) {
   const axios = useAxios();
   const auth = useContext(AuthContext);
 
@@ -30,32 +31,32 @@ export default function CurrentBooksVerticalListRow({ data }: VerticalListRowPro
     require("../../../../../assets/images/template.png")
   );
   const authors = useMemo(
-    () => data.bookReference.authors.map(a => `${a.firstName} ${a.lastName}`).join(','),
+    () =>
+      data.bookReference.authors
+        .map((a) => `${a.firstName} ${a.lastName}`)
+        .join(","),
     [data.bookReference.authors]
   );
 
-  const imageUrl = appConfig.apiEndpoint + `/UserBookItem/image/${data.imageId}`;
+  const imageUrl =
+    appConfig.apiEndpoint + `/UserBookItem/image/${data.imageId}`;
 
   const onDelete = () => {
-
     var url = UserBookItemService.deleteUserBookItem(data.id);
-    var booksUrl = UserBookItemService.getUserBooks(1,10,auth.userId);
+    var booksUrl = UserBookItemService.getUserBooks(1, 10, auth.userId);
 
     axios
       .delete(url)
       .then(() => axios.get<Pagination<UserBookItemType>>(booksUrl))
-      .then(response => response.data)
-      .then(data => context.setData(data.items))
+      .then((response) => response.data)
+      .then((data) => context.setData(data.items))
       .catch(console.log)
-      .finally(close)
-  }
+      .finally(close);
+  };
 
-  const editAction = () => {
+  const editAction = () => {};
 
-  }
-
-  if (assets === undefined)
-    return null;
+  if (assets === undefined) return null;
 
   return (
     <>
@@ -71,10 +72,16 @@ export default function CurrentBooksVerticalListRow({ data }: VerticalListRowPro
             <View className="h-[1] w-[80%]  bg-neutral-100" />
           </View>
           <View className="flex flex-row justify-between">
-            <Pressable className="w-[47%] bg-neutral-900 flex items-center justify-center py-3 rounded-md" onPress={close}>
+            <Pressable
+              className="w-[47%] bg-neutral-900 flex items-center justify-center py-3 rounded-md"
+              onPress={close}
+            >
               <Text className="font-bold text-white">Anuluj</Text>
             </Pressable>
-            <Pressable className="w-[47%] bg-red-500 flex items-center justify-center py-3 rounded-md" onPress={onDelete}>
+            <Pressable
+              className="w-[47%] bg-red-500 flex items-center justify-center py-3 rounded-md"
+              onPress={onDelete}
+            >
               <Text className="font-bold text-white">Usuń</Text>
             </Pressable>
           </View>
@@ -83,16 +90,21 @@ export default function CurrentBooksVerticalListRow({ data }: VerticalListRowPro
       <View className="h-[82]">
         <View className="flex flex-row flex-1 justify-between mt-3">
           <View className="flex flex-row">
-            {data.imageId === null ?
-              <VerticalListImage source={assets[0].localUri!} /> :
+            {data.imageId === null ? (
+              <VerticalListImage source={assets[0].localUri!} />
+            ) : (
               <VerticalListImage source={assets[0].localUri!} src={imageUrl} />
-            }
+            )}
             <View className="flex justify-center ml-3 max-w-[200]">
               <View>
-                <Text className="font-roboto-light text-sm" numberOfLines={2}>{data.description}</Text>
+                <Text className="font-roboto-light text-sm" numberOfLines={2}>
+                  {data.description}
+                </Text>
               </View>
               <View>
-                <Text className="font-roboto-bold text-xs" numberOfLines={1}>{authors}</Text>
+                <Text className="font-roboto-bold text-xs" numberOfLines={1}>
+                  {authors}
+                </Text>
               </View>
             </View>
           </View>
