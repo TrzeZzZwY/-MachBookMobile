@@ -27,6 +27,8 @@ import {
   LOGIN_PAGE_ROUTE_NAME,
   REGISTER_PAGE_ROUTE_NAME,
 } from "./pages/RootPages/RootPageRouteDefinitions";
+import SwapPage from "./pages/SwapPage";
+import MapPage from "./pages/MapPage";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -73,6 +75,7 @@ export default function MainContainer() {
             <Stack.Screen name="MainApp" options={{ headerShown: false }}>
               {() => (
                 <Tab.Navigator
+                  initialRouteName={LIST_ROUTE_NAME}
                   screenOptions={{ header: () => null }}
                   tabBar={(props) => (
                     <TabBar {...{ ...props, openModalAction: openModal }} />
@@ -80,7 +83,7 @@ export default function MainContainer() {
                 >
                   <Tab.Screen
                     name={MATCH_ROUTE_NAME}
-                    component={ListPage}
+                    component={SwapPage}
                     options={{ title: "Welcome" }}
                   />
                   <Tab.Screen
@@ -90,7 +93,7 @@ export default function MainContainer() {
                   />
                   <Tab.Screen
                     name={MAP_ROUTE_NAME}
-                    component={ListPage}
+                    component={MapPage}
                     options={{ title: "Welcome" }}
                   />
                   <Tab.Screen

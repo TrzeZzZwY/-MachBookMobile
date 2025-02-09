@@ -45,8 +45,8 @@ export default function ProfilePage() {
         <View className="mt-5">
           <Pressable className={`bg-red-500 py-3 px-4 rounded-md my-1`}>
             <View className="flex flex-row justify-between">
-              <Text className="font-bold color-red-950">Usunięcie konta</Text>
-              <AngleRight className="w-[10]" fill={"#460809"} />
+              <Text className="font-bold color-white">Usunięcie konta</Text>
+              <AngleRight className="w-[10]" fill={"#FFFFFF"} />
             </View>
           </Pressable>
         </View>

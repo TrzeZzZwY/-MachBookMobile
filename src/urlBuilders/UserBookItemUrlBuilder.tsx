@@ -13,6 +13,8 @@ export type UserBookItemUrlBuilderType = {
   uploadBookImage: () => string;
   createUserBookItem: () => string;
   deleteUserBookItem: (id: number) => string;
+  toggleLike: () => string;
+  getFeed: (page: number, pageSize: number) => string;
 } & SearchableUrlBuilder<UserBookItemType>;
 
 const UserBookItemUrlBuilder: UserBookItemUrlBuilderType = {
@@ -35,6 +37,11 @@ const UserBookItemUrlBuilder: UserBookItemUrlBuilderType = {
 
   deleteUserBookItem: (id: number) =>
     `${appConfig.apiPaths.userBookItem}/${id}`,
+
+  getFeed: (page: number, pageSize: number) =>
+    `${appConfig.apiPaths.userBookItem}/Feed?pageSize=${pageSize}&pageNumber=${page}`,
+
+  toggleLike: () => `${appConfig.apiPaths.userBookItem}/toggle-like`,
 };
 
 export default UserBookItemUrlBuilder;
