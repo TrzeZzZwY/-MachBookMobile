@@ -15,6 +15,8 @@ export default function SwapPage() {
   const likeHandler = (id: number) => {
     const url = UserBookItemUrlBuilder.toggleLike();
 
+    console.log(id);
+
     axios
       .post(url, {
         userBookItemId: id,

@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import VerticalListImage from "../../ListImage";
+import ListImage from "../../ListImage";
 import { UserBookItemType } from "../../../../types/UserBookItemType";
 import { useAssets } from "expo-asset";
 import appConfig from "appConfig";
@@ -91,9 +91,9 @@ export default function CurrentBooksVerticalListRow({
         <View className="flex flex-row flex-1 justify-between mt-3">
           <View className="flex flex-row">
             {data.imageId === null ? (
-              <VerticalListImage source={assets[0].localUri!} />
+              <ListImage source={assets[0].localUri!} />
             ) : (
-              <VerticalListImage source={assets[0].localUri!} src={imageUrl} />
+              <ListImage source={assets[0].localUri!} src={imageUrl} />
             )}
             <View className="flex justify-center ml-3 max-w-[200]">
               <View>

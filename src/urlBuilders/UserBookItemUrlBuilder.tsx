@@ -14,6 +14,7 @@ export type UserBookItemUrlBuilderType = {
   createUserBookItem: () => string;
   deleteUserBookItem: (id: number) => string;
   toggleLike: () => string;
+  getLikedBooks: (page: number, pageSize: number) => string;
   getFeed: (page: number, pageSize: number) => string;
 } & SearchableUrlBuilder<UserBookItemType>;
 
@@ -42,6 +43,9 @@ const UserBookItemUrlBuilder: UserBookItemUrlBuilderType = {
     `${appConfig.apiPaths.userBookItem}/Feed?pageSize=${pageSize}&pageNumber=${page}`,
 
   toggleLike: () => `${appConfig.apiPaths.userBookItem}/toggle-like`,
+
+  getLikedBooks: (page: number, pageSize: number) =>
+    `${appConfig.apiPaths.userBookItem}/get-like?pageSize=${pageSize}&pageNumber=${page}`,
 };
 
 export default UserBookItemUrlBuilder;

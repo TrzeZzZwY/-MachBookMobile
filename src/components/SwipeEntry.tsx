@@ -18,9 +18,6 @@ export type SwipeEntryProps = {
 export default function SwipeEntry({ item, onUserLike }: SwipeEntryProps) {
   const [hearthVisible, setHearthVisible] = useState<boolean>(false);
   const [firstTap, setFirstTap] = useState<boolean>(true);
-  const [tapTimeout, setTapTimeout] = useState<ReturnType<
-    typeof setTimeout
-  > | null>(null);
   const imageUrl = ImageUrlBuiler.getUserBookItemImage(item.imageId);
   const authors = item.bookReference.authors
     .map((author) => `${author.firstName} ${author.lastName}`)
@@ -28,7 +25,6 @@ export default function SwipeEntry({ item, onUserLike }: SwipeEntryProps) {
 
   const handleLike = () => {
     setHearthVisible(true);
-    onUserLike(item.id);
     setTimeout(() => {
       setHearthVisible(false);
     }, LIKE_DELAY);
@@ -44,6 +40,7 @@ export default function SwipeEntry({ item, onUserLike }: SwipeEntryProps) {
     } else {
       setFirstTap(true);
       handleLike();
+      onUserLike(item.id);
     }
   };
 

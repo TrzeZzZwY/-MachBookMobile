@@ -1,12 +1,12 @@
 import { View } from "react-native";
 import MatchedBooksVerticalList from "../components/MatchedBooksVerticalList";
 import CurrentBooksVerticalList from "../components/CurrentBooksVerticatList";
-import BooksMatchedByOthersUsersList from "../components/BooksMatchedByOtherUsersList";
+import BooksLiked from "../components/BooksLiked";
 
 export default function ListPage() {
   return (
     <View className="flex-1">
-      <BooksMatchedByOthersUsersList />
+      <BooksLiked />
       <View className="flex-1 mx-4">
         <CurrentBooksVerticalList />
       </View>

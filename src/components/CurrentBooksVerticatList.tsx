@@ -40,6 +40,10 @@ export default function CurrentBooksVerticalList() {
     return axios
       .get<Pagination<UserBookItemType>>(url)
       .then((result) => result.data)
+      .then((s) => {
+        console.log(s);
+        return s;
+      })
       .then((result) => result.items)
       .then(context.setData)
       .catch(console.log);

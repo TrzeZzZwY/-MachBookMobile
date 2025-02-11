@@ -8,8 +8,12 @@ import Chart from "svg/chart.svg";
 import WideButton from "../components/Common/WideButtont";
 import AngleRight from "svg/angleRight.svg";
 import SectionDivider from "../components/Common/SectionDivider";
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthorizationContext/AuthContext";
 
 export default function ProfilePage() {
+  const auth = useContext(AuthContext);
+
   return (
     <ScrollView className="flex-1">
       <ProfileHeader />
@@ -43,6 +47,7 @@ export default function ProfilePage() {
         <WideButton text="Zmiana aktualnego rejonu" action={() => null} />
         <SectionDivider className="bg-stone-200 mt-5 w-[90%]" />
         <View className="mt-5">
+          <WideButton text="Wyloguj się" action={() => auth.signOut()} />
           <Pressable className={`bg-red-500 py-3 px-4 rounded-md my-1`}>
             <View className="flex flex-row justify-between">
               <Text className="font-bold color-white">Usunięcie konta</Text>
