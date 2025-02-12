@@ -5,7 +5,6 @@ import SectionDivider from "./Common/SectionDivider";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import HearthFull from "svg/hearthFull.svg";
-import useAxios from "hooks/useAxios";
 
 const DOUBLE_TAP_DELAY = 200;
 const LIKE_DELAY = 750;

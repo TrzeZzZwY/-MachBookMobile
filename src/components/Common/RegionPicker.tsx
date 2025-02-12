@@ -17,7 +17,21 @@ export const AvailableRegions: RegionType[] = [
   },
 ];
 
+export function RegionMapper(regionId: number): string {
+  return (
+    AvailableRegions.find((region) => region.id == regionId)?.regionName ?? ""
+  );
+}
+
+export function RegionFactory(regionId: number): RegionType {
+  return {
+    id: regionId,
+    regionName: RegionMapper(regionId),
+  };
+}
+
 export type RegionPickerProps = {
+  currentValue?: RegionType;
   label: string;
   onChange: (region: RegionType) => void;
 } & ViewProps;
@@ -36,6 +50,7 @@ const dropdownStyles = StyleSheet.create({
 });
 
 export default function RegionPicker({
+  currentValue,
   onChange,
   label,
   ...props
@@ -44,6 +59,7 @@ export default function RegionPicker({
     <View className={`${props.className}`} {...props}>
       <Text className="mt-3 mb-1 font-roboto-light">{label}</Text>
       <Dropdown
+        value={currentValue ?? null}
         data={AvailableRegions}
         onChange={onChange}
         valueField={"id"}

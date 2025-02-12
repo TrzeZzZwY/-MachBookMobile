@@ -1,7 +1,7 @@
 import { PortalProvider } from "@gorhom/portal";
 import { UserBookContextWrapper } from "./UserBookContext/UserBookContext";
 import AuthProvider from "./AuthorizationContext/AuthProvider";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { UserBookLikedContextWrapper } from "./UserBookLikedContext/UserBookLikedContext";
 
 export default function GlobalContextWrapper({
   children,
@@ -11,7 +11,9 @@ export default function GlobalContextWrapper({
   return (
     <AuthProvider>
       <UserBookContextWrapper>
-        <PortalProvider>{children}</PortalProvider>
+        <UserBookLikedContextWrapper>
+          <PortalProvider>{children}</PortalProvider>
+        </UserBookLikedContextWrapper>
       </UserBookContextWrapper>
     </AuthProvider>
   );

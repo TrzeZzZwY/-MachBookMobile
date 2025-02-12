@@ -7,7 +7,7 @@ export type ListHeaderProps = {
 
 export default function ListHeader({ text }: ListHeaderProps) {
   return (
-    <View className="mt-8">
+    <View className="mt-5">
       <CommonHeader text={text} />
     </View>
   );

@@ -8,6 +8,7 @@
   "apiPaths": {
     "author": "Author",
     "book": "Book",
-    "userBookItem": "UserBookItem"
+    "userBookItem": "UserBookItem",
+    "user": "User"
   }
 }

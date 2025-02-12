@@ -1,7 +1,12 @@
 import { useAssets } from "expo-asset";
 import { Text, View, Image } from "react-native";
+import { UserType } from "types/UserType";
 
-export default function ProfileHeader() {
+export type ProfileHeaderProps = {
+  user: UserType | null;
+};
+
+export default function ProfileHeader({ user }: ProfileHeaderProps) {
   const [assets, error] = useAssets(
     require("../../../../assets/images/user.png")
   );
@@ -35,9 +40,11 @@ export default function ProfileHeader() {
           </View>
           <View className="flex h-20 justify-center mt-[-6]">
             <Text className="text-2xl font-roboto-light mb-2">
-              Dawid Jasper
+              {user?.firstName} {user?.lastName}
             </Text>
-            <Text className="font-bold text-md">11.09.2001</Text>
+            <Text className="font-bold text-md">
+              {new Date(user?.birthDate ?? Date.now()).toDateString()}
+            </Text>
           </View>
         </View>
       </View>
