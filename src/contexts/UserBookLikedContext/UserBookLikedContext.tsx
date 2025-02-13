@@ -7,7 +7,7 @@ const UserBookLikedContext = React.createContext<UserBookLikedContextType>({
   setData: (data: UserBookItemType[]) => {},
 });
 
-export type UserBookLikedContextType = {} & DataContextBase<UserBookItemType>;
+export type UserBookLikedContextType = {} & DataContextBase<UserBookItemType[]>;
 
 export type UserBookLikedContextWrapperType = {
   children: React.ReactNode[] | React.ReactNode | undefined;

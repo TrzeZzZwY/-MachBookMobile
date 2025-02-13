@@ -14,6 +14,7 @@ import UserBookContext from "../../../../contexts/UserBookContext/UserBookContex
 import useAxios from "hooks/useAxios";
 import AuthContext from "../../../../contexts/AuthorizationContext/AuthContext";
 import { Pagination } from "types/Pagination";
+import { UserBookItemStatus } from "types/UserBookItemStatus";
 
 export type VerticalListRowProps = {
   data: UserBookItemType;
@@ -90,11 +91,16 @@ export default function CurrentBooksVerticalListRow({
       <View className="h-[82]">
         <View className="flex flex-row flex-1 justify-between mt-3">
           <View className="flex flex-row">
-            {data.imageId === null ? (
-              <ListImage source={assets[0].localUri!} />
-            ) : (
+            <View>
               <ListImage source={assets[0].localUri!} src={imageUrl} />
-            )}
+              {data.status.toString() ===
+              UserBookItemStatus[UserBookItemStatus.ActivePublic] ? (
+                <View className="absolute h-3 w-3 top-1 left-1 bg-green-500 rounded-lg"></View>
+              ) : (
+                <View className="absolute h-3 w-3 top-1 left-1 bg-red-500 rounded-lg"></View>
+              )}
+            </View>
+
             <View className="flex justify-center ml-3 max-w-[200]">
               <View>
                 <Text className="font-roboto-light text-sm" numberOfLines={2}>

@@ -1,7 +1,6 @@
 import useAxios from "hooks/useAxios";
 import { useContext, useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, RefreshControl } from "react-native";
 import Swiper from "react-native-swiper";
 import UserBookItemUrlBuilder from "services/UserBookItemUrlBuilder";
 import { Pagination } from "types/Pagination";
@@ -30,7 +29,7 @@ export default function SwapPage() {
       .catch(console.log);
   };
 
-  useEffect(() => {
+  const getFeed = () => {
     const url = UserBookItemUrlBuilder.getFeed(1, 50);
 
     axios
@@ -38,11 +37,22 @@ export default function SwapPage() {
       .then((response) => response.data)
       .then((data) => data.items)
       .then(setFeedBooks);
+  };
+
+  useEffect(() => {
+    getFeed();
   }, []);
 
   return (
     <View className="flex-1">
-      <Swiper horizontal={false} loop={false} showsPagination={false}>
+      <Swiper
+        horizontal={false}
+        loop={false}
+        showsPagination={false}
+        refreshControl={
+          <RefreshControl refreshing={false} onRefresh={getFeed} />
+        }
+      >
         {!feedBooks ? (
           <View></View>
         ) : (

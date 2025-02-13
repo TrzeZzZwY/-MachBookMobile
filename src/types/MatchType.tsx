@@ -12,10 +12,16 @@ export type UserMatchType = {
 export type MatchPair = {
   offeredBook: BookMatchType;
   requestedBook: BookMatchType;
-};
+} & ExchangeType;
 
 export type BookMatchType = {
   userBookItemId: number;
   title: string;
   imageId: number;
+};
+
+export type ExchangeType = {
+  exchangeId: number | null;
+  exchangeStatus: number | null;
+  isMyOffer: boolean | null;
 };

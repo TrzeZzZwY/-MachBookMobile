@@ -2,6 +2,7 @@ import { PortalProvider } from "@gorhom/portal";
 import { UserBookContextWrapper } from "./UserBookContext/UserBookContext";
 import AuthProvider from "./AuthorizationContext/AuthProvider";
 import { UserBookLikedContextWrapper } from "./UserBookLikedContext/UserBookLikedContext";
+import { MatchesContextWrapper } from "./MatchesContext/MatchesContext";
 
 export default function GlobalContextWrapper({
   children,
@@ -12,7 +13,9 @@ export default function GlobalContextWrapper({
     <AuthProvider>
       <UserBookContextWrapper>
         <UserBookLikedContextWrapper>
-          <PortalProvider>{children}</PortalProvider>
+          <MatchesContextWrapper>
+            <PortalProvider>{children}</PortalProvider>
+          </MatchesContextWrapper>
         </UserBookLikedContextWrapper>
       </UserBookContextWrapper>
     </AuthProvider>
